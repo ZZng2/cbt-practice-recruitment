@@ -7,7 +7,7 @@ const config=window.CBT_CONFIG,params=new URLSearchParams(location.search),allow
 const source=allowed.includes(params.get('s'))?params.get('s'):'direct',fallback=document.getElementById('fallback');
 document.getElementById('formLink').href=config.formUrl;
 if(!config.endpoint){document.getElementById('status').textContent='집계 연결 전 검토본입니다.';fallback.hidden=false;return;}
-if(Date.now()>Date.parse('2026-10-22T23:00:00+09:00')){document.getElementById('status').textContent='모집이 마감됐어요.';return;}
+if(Date.now()>Date.parse('2026-10-22T21:00:00+09:00')){document.getElementById('status').textContent='모집이 마감됐어요.';return;}
 let visitor;const qaOverride=params.get('qa_visitor');if(qaOverride&&/^[a-f0-9-]{36}$/i.test(qaOverride)){visitor=qaOverride;}else try{const saved=JSON.parse(localStorage.getItem('cbt-recruit-v1')||'null');visitor=saved&&saved.expires>Date.now()?saved.id:crypto.randomUUID();localStorage.setItem('cbt-recruit-v1',JSON.stringify({id:visitor,expires:Date.parse('2026-12-20T23:59:59+09:00')}));}catch{visitor=crypto.randomUUID();}
 let done=false;const go=url=>{if(done)return;done=true;try{location.replace(url);}catch{fallback.hidden=false;}};
 const timer=setTimeout(()=>go(config.formUrl),8000),callback='cbt_'+crypto.randomUUID().replace(/-/g,'');
